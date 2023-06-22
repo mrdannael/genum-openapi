@@ -1,0 +1,27 @@
+{
+  "name": "genum-openapi",
+  "version": "1.0.0",
+  "description": "Generate Typescript enums from openapi",
+  "main": "index.js",
+  "repository": "git@github.com:mrdannael/genum-openapi.git",
+  "author": "mrdannael",
+  "license": "MIT",
+  "private": true,
+  "devDependencies": {
+    "@types/clear": "^0.1.2",
+    "@types/figlet": "^1.5.6",
+    "@types/node": "^20.3.1",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.1.3"
+  },
+  "scripts": {
+    "start": "ts-node ./src/main.ts"
+  },
+  "dependencies": {
+    "chalk": "4.1.2",
+    "clear": "^0.1.0",
+    "commander": "^11.0.0",
+    "figlet": "^1.6.0",
+    "yaml": "^2.3.1"
+  }
+}
