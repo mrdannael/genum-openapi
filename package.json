@@ -33,7 +33,7 @@
   "scripts": {
     "start": "ts-node --esm ./src/cli.ts",
     "dev": "tsc --watch",
-    "build": "rimraf ./bin && rollup -c rollup.config.js",
+    "build": "rimraf ./bin && rollup -c rollup.config.js && chmod +x ./bin/cli.js",
     "test": "vitest run",
     "test:ui": "vitest --ui",
     "prettier": "prettier --write .",
