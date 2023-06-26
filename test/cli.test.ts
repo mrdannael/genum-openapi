@@ -7,12 +7,10 @@ const cwd = process.cwd();
 const cmd = "./bin/cli.js";
 
 describe("CLI", () => {
-
   //       const expected = fs.readFileSync(new URL("./examples/stripe-api.ts", cwd), "utf8").trim();
   //       const input = fs.readFileSync(new URL("./examples/stripe-api.yaml", cwd));
   //       const { stdout } = await execa(cmd, { input });
   //       expect(stdout).toBe(expected);
-
 
   console.log(cwd);
 
@@ -29,7 +27,9 @@ describe("CLI", () => {
 
     test("--help", async () => {
       const { stdout } = await execa(cmd, ["--help"], { cwd });
-      expect(stdout).toEqual(expect.stringMatching(/^Usage: genum-openapi \[global options\]/g));
+      expect(stdout).toEqual(
+        expect.stringMatching(/^Usage: genum-openapi \[global options\]/g)
+      );
     });
 
     test("--version", async () => {

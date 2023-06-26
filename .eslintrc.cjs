@@ -9,7 +9,7 @@ module.exports = {
     "plugin:@typescript-eslint/recommended",
     "plugin:node/recommended",
     "plugin:vitest/recommended",
-    "plugin:import/typescript"
+    "plugin:import/typescript",
   ],
   overrides: [
     {
