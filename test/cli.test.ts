@@ -15,16 +15,6 @@ describe("CLI", () => {
   console.log(cwd);
 
   describe("flags", () => {
-    test("ls -la", async () => {
-      const { stdout } = await execa("echo", ["dupeczka"], { cwd });
-      expect(stdout).toBe("dupeczka");
-    });
-
-    test("node -v", async () => {
-      const { stdout } = await execa("node", ["-v"], { cwd });
-      expect(stdout).toBe("v18.16.0");
-    });
-
     test("--help", async () => {
       const { stdout } = await execa(cmd, ["--help"], { cwd });
       expect(stdout).toEqual(
