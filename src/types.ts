@@ -1,6 +1,6 @@
 export interface Options {
-  input: string; 
-  exclude?: string[]; 
+  input: string;
+  exclude?: string[];
   suffix?: string | boolean;
   parse?: boolean;
   uppercase?: boolean;
