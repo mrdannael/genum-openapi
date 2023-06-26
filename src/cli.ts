@@ -34,8 +34,6 @@ program
 
 const options: Options = program.opts();
 
-console.log(options);
-
 const replacers: Replacer[] = [
   { regExp: /[-/]/g, replaceWith: "_" },
   { regExp: /[.]/g, replaceWith: "__" },

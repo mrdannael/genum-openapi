@@ -1,0 +1,26 @@
+openapi: 3.0.3
+info:
+  title: Example OpenApi description
+  version: 0.0.0
+components:
+  schemas:
+    AgencyInvoicingType:
+      enum:
+        - INVOICE_PER_AGENCY
+        - INVOICE_PER_ACCOUNT
+      type: string
+    AgencyRevenueType:
+      enum:
+        - RATE_CARD
+        - BASED_ON_MEDIA_COST
+      type: string
+    AgencyServiceTypeEnum:
+      enum:
+        - SELF_SERVICE
+        - MANAGED_SERVICE
+      type: string
+    AgencyStatus:
+      enum:
+        - SOME/WEIRD-Strings
+        - annother.weird.string
+      type: string

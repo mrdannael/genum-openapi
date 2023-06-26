@@ -7,13 +7,6 @@ const cwd = process.cwd();
 const cmd = "./bin/cli.js";
 
 describe("CLI", () => {
-  //       const expected = fs.readFileSync(new URL("./examples/stripe-api.ts", cwd), "utf8").trim();
-  //       const input = fs.readFileSync(new URL("./examples/stripe-api.yaml", cwd));
-  //       const { stdout } = await execa(cmd, { input });
-  //       expect(stdout).toBe(expected);
-
-  console.log(cwd);
-
   describe("flags", () => {
     test("--help", async () => {
       const { stdout } = await execa(cmd, ["--help"], { cwd });
@@ -26,5 +19,12 @@ describe("CLI", () => {
       const { stdout } = await execa(cmd, ["--version"], { cwd });
       expect(stdout).toBe("0.1.0");
     });
+
+    // eslint-disable-next-line vitest/no-commented-out-tests
+    // test("--input", async () => {
+    //   const expected = fs.readFileSync(new URL("./fixtures/enums_1.ts", import.meta.url), "utf-8").trim();
+    //   const { stdout } = await execa(cmd, ["-i ./fixtures/fixture_1.yaml"],);
+    //   expect(stdout).toEqual(expected);
+    // });
   });
 });
