@@ -68,7 +68,7 @@ const arrayToEnum = (enums: string[], enumName: string) => {
     .map((value) => {
       return `${parseValue(value)} = "${value}"`;
     })
-    .join(",\n");
+    .join(",\n  ");
 
   let name = enumName;
   if (options.suffix) {
@@ -79,9 +79,7 @@ const arrayToEnum = (enums: string[], enumName: string) => {
       : `${enumName}${enumSuffix}`;
   }
 
-  const enumType = `export enum ${name} {
-  ${enumString}
-  }\n\n`;
+  const enumType = `export enum ${name} {\n  ${enumString}\n}\n\n`;
 
   return enumType;
 };
