@@ -11,7 +11,7 @@ let filepath = "";
 
 const program = new Command();
 program.showHelpAfterError("(add --help for additional information)");
-program.version("0.1.0", "-v, --version", "output the current version");
+program.version("0.1.1", "-v, --version", "output the current version");
 
 program
   .name("genum-openapi")
