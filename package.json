@@ -3,10 +3,12 @@
   "version": "0.1.0",
   "description": "Generate Typescript enums from openapi",
   "main": "./src/cli.ts",
-  "repository": "git@github.com:mrdannael/genum-openapi.git",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mrdannael/genum-openapi.git"
+  },
   "author": "mrdannael",
   "license": "MIT",
-  "private": true,
   "type": "module",
   "engines": {
     "node": ">=16.0.0"

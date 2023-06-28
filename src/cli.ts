@@ -16,12 +16,12 @@ program.version("0.1.0", "-v, --version", "output the current version");
 program
   .name("genum-openapi")
   .usage("[global options]")
-  .description("Simple CLI for generating Typescript enums from OpenApi document.")
+  .description("Simple CLI for generating Typescript enums from OpenAPI document.")
   .argument("<file>", "OpenAPI source file")
-  .option("-x, --exclude <enumNames...>", "names of enums to exclude from OpenApi document")
+  .option("-x, --exclude <enumNames...>", "names of enums to exclude from OpenAPI document")
   .option(
     "-s, --suffix [suffix]",
-    "place specified suffix at the end of the enum name if does not exists (default suffix if empty option provided: Enum"
+    "place specified suffix at the end of the enum name if does not exists (default suffix if empty option provided: Enum)"
   )
   .option("-p, --parse", "parse enums keys that are not valid (ie. change . to __ and - or / to _)")
   .option("-u, --uppercase", "parse all enums keys to be uppercase")
