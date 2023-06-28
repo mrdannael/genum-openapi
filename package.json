@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "description": "Generate Typescript enums from openapi",
   "main": "./src/cli.ts",
+  "keywords": ["cli", "openapi", "typescript", "nodejs", "enum"],
   "repository": {
     "type": "git",
     "url": "https://github.com/mrdannael/genum-openapi.git"
