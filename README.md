@@ -1,6 +1,6 @@
 # gEnum OpenAPI
 
-![node ci](https://github.com/mrdannael/genum-openapi/actions/workflows/nodejs.yaml/badge.svg)
+![ci](https://github.com/mrdannael/genum-openapi/actions/workflows/nodejs.yaml/badge.svg)
 ![npm](https://img.shields.io/npm/v/genum-openapi)
 ![npm](https://img.shields.io/npm/dm/genum-openapi)
 
@@ -119,6 +119,12 @@ export enum InvalidCase {
   ANOTHER__WEIRD__STRING = "another.weird.string"
 }
 ```
+
+## :mega: Goals
+
+1. Handle JSON schemas
+2. Fetching schema from remote resource (with Auth header if needed)
+3. Parsing multiple schemas at once (with globbing)
 
 ## :couple_with_heart: Contributing
 
