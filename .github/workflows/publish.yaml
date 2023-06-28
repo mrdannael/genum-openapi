@@ -3,7 +3,7 @@ name: NPM Publish
 on:
   push:
     tags:
-     - '*'
+      - "*"
 
 jobs:
   publish:
@@ -17,4 +17,3 @@ jobs:
           node-version: 18.16.0
       - run: yarn install
       - run: yarn build
-

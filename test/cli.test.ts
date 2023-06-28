@@ -1,9 +1,9 @@
 import { execa } from "execa";
-// import fs from "node:fs";
-// import { URL } from "node:url";
+import fs from "node:fs";
+import { URL } from "node:url";
 import { describe, test, expect } from "vitest";
 
-const cwd = process.cwd();
+const cwd = new URL("../", import.meta.url);
 const cmd = "./bin/cli.js";
 
 describe("CLI", () => {
@@ -21,10 +21,17 @@ describe("CLI", () => {
     });
 
     // eslint-disable-next-line vitest/no-commented-out-tests
-    // test("--input", async () => {
-    //   const expected = fs.readFileSync(new URL("./fixtures/enums_1.ts", import.meta.url), "utf-8").trim();
-    //   const { stdout } = await execa(cmd, ["-i ./fixtures/fixture_1.yaml"],);
-    //   expect(stdout).toEqual(expected);
-    // });
+    test("<filepath> argument", async () => {
+      const expected = fs
+        .readFileSync(
+          new URL("./fixtures/enums_1.ts", import.meta.url),
+          "utf-8"
+        )
+        .trim();
+      const { stdout } = await execa(cmd, ["test/fixtures/fixture_1.yaml"], {
+        cwd,
+      });
+      expect(stdout.trim()).toEqual(expected);
+    }, 30000);
   });
 });
