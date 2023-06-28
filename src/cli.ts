@@ -16,22 +16,14 @@ program.version("0.1.0", "-v, --version", "output the current version");
 program
   .name("genum-openapi")
   .usage("[global options]")
-  .description(
-    "Simple CLI for generating Typescript enums from OpenApi document."
-  )
+  .description("Simple CLI for generating Typescript enums from OpenApi document.")
   .argument("<file>", "OpenAPI source file")
-  .option(
-    "-x, --exclude <enumNames...>",
-    "names of enums to exclude from OpenApi document"
-  )
+  .option("-x, --exclude <enumNames...>", "names of enums to exclude from OpenApi document")
   .option(
     "-s, --suffix [suffix]",
     "place specified suffix at the end of the enum name if does not exists (default suffix if empty option provided: Enum"
   )
-  .option(
-    "-p, --parse",
-    "parse enums keys that are not valid (ie. change . to __ and - or / to _)"
-  )
+  .option("-p, --parse", "parse enums keys that are not valid (ie. change . to __ and - or / to _)")
   .option("-u, --uppercase", "parse all enums keys to be uppercase")
   .option("-o, --output <file>", "path of the output file", "stdout")
   .action((path) => {
@@ -71,11 +63,8 @@ const arrayToEnum = (enums: string[], enumName: string) => {
 
   let name = enumName;
   if (options.suffix) {
-    const enumSuffix =
-      typeof options.suffix === "string" ? options.suffix : "Enum";
-    name = enumName.includes(enumSuffix)
-      ? enumName
-      : `${enumName}${enumSuffix}`;
+    const enumSuffix = typeof options.suffix === "string" ? options.suffix : "Enum";
+    name = enumName.includes(enumSuffix) ? enumName : `${enumName}${enumSuffix}`;
   }
 
   const enumType = `export enum ${name} {\n  ${enumString}\n}\n\n`;
