@@ -2,7 +2,6 @@ import { Command } from "commander";
 import { parse } from "yaml";
 import ora from "ora";
 import * as fs from "node:fs";
-// eslint-disable-next-line node/no-missing-import
 import { Options, Replacer } from "./types";
 import { OpenAPIV3 } from "openapi-types";
 import { error } from "./utils";
