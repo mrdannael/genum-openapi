@@ -24,14 +24,79 @@ describe("CLI", () => {
     test("<filepath> argument", async () => {
       const expected = fs
         .readFileSync(
-          new URL("./fixtures/enums_1.ts", import.meta.url),
+          new URL("./fixtures/output/enums_1.ts", import.meta.url),
           "utf-8"
         )
         .trim();
-      const { stdout } = await execa(cmd, ["test/fixtures/fixture_1.yaml"], {
+      const { stdout } = await execa(cmd, ["test/fixtures/input/fixture_1.yaml"], {
         cwd,
       });
       expect(stdout.trim()).toEqual(expected);
-    }, 30000);
+    });
+
+    test("--exclude", async () => {
+      const expected = fs
+        .readFileSync(
+          new URL("./fixtures/output/enums_2.ts", import.meta.url),
+          "utf-8"
+        )
+        .trim();
+      const { stdout } = await execa(cmd, ["test/fixtures/input/fixture_2.yaml", "--exclude", "AgencyServiceTypeEnum", "AgencyStatus"], {
+        cwd,
+      });
+      expect(stdout.trim()).toEqual(expected);
+    });
+
+    test("--suffix (default 'Enum')", async () => {
+      const expected = fs
+        .readFileSync(
+          new URL("./fixtures/output/enums_3.ts", import.meta.url),
+          "utf-8"
+        )
+        .trim();
+      const { stdout } = await execa(cmd, ["test/fixtures/input/fixture_3.yaml", "--suffix"], {
+        cwd,
+      });
+      expect(stdout.trim()).toEqual(expected);
+    });
+
+    test("--suffix 'TSEnum'", async () => {
+      const expected = fs
+        .readFileSync(
+          new URL("./fixtures/output/enums_4.ts", import.meta.url),
+          "utf-8"
+        )
+        .trim();
+      const { stdout } = await execa(cmd, ["test/fixtures/input/fixture_3.yaml", "--suffix", "TSEnum"], {
+        cwd,
+      });
+      expect(stdout.trim()).toEqual(expected);
+    });
+
+    test("--parse", async () => {
+      const expected = fs
+        .readFileSync(
+          new URL("./fixtures/output/enums_5.ts", import.meta.url),
+          "utf-8"
+        )
+        .trim();
+      const { stdout } = await execa(cmd, ["test/fixtures/input/fixture_2.yaml", "--parse"], {
+        cwd,
+      });
+      expect(stdout.trim()).toEqual(expected);
+    });
+
+    test("--uppercase (with --parse)", async () => {
+      const expected = fs
+        .readFileSync(
+          new URL("./fixtures/output/enums_6.ts", import.meta.url),
+          "utf-8"
+        )
+        .trim();
+      const { stdout } = await execa(cmd, ["test/fixtures/input/fixture_2.yaml", "--parse", "--uppercase"], {
+        cwd,
+      });
+      expect(stdout.trim()).toEqual(expected);
+    });
   });
 });
