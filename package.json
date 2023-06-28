@@ -60,8 +60,7 @@
     "src/**/*.{js,jsx,ts,tsx}": [
       "yarn lint:ts --fix",
       "yarn prettier",
-      "yarn typecheck",
-      "yarn vitest related --run"
+      "yarn typecheck"
     ]
   }
 }
