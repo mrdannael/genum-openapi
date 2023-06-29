@@ -10,3 +10,5 @@ test/
 rollup.config.js
 tsconfig.json
 vitest.config.ts
+
+!/bin
