@@ -1,0 +1,24 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Example of the API document",
+    "version": "0.0.0",
+    "description": "Description of the API document"
+  },
+  "components": {
+    "schemas": {
+      "AgencyStatus": {
+        "enum": ["ACTIVE", "ARCHIVED"],
+        "type": "string",
+        "description": "* `ACTIVE` - Active\n* `ARCHIVED` - Archived"
+      }
+    },
+    "securitySchemes": {
+      "jwtAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}

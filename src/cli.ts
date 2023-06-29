@@ -1,10 +1,11 @@
 import { Command } from "commander";
 import chalk from "chalk";
-import { parse } from "yaml";
+import yaml from "yaml";
 import * as fs from "node:fs";
 import { Options, Replacer } from "./types";
 import { OpenAPIV3 } from "openapi-types";
 import { error } from "./utils";
+import path from "node:path";
 
 const packageJSON = JSON.parse(
   fs.readFileSync(new URL("../package.json", import.meta.url), "utf8")
@@ -59,6 +60,24 @@ const parseValue = (value: string) => {
   return inputValue;
 };
 
+const parseYAML = (schema: string) => {
+  try {
+    return yaml.parse(schema);
+  } catch (err) {
+    error("Error parsing YAML file");
+    throw err;
+  }
+};
+
+const parseJSON = (schema: string) => {
+  try {
+    return JSON.parse(schema);
+  } catch (err) {
+    error("Error parsing JSON file");
+    throw err;
+  }
+};
+
 const arrayToEnum = (enums: string[], enumName: string) => {
   const enumString = enums
     .map((value) => {
@@ -77,7 +96,7 @@ const arrayToEnum = (enums: string[], enumName: string) => {
   return enumType;
 };
 
-const readFile = () => {
+const readAndParseFile = () => {
   try {
     const localPath = fs.realpathSync(filepath);
 
@@ -85,22 +104,29 @@ const readFile = () => {
       throw new Error(`${localPath} is a directory`);
     }
 
+    const ext = path.extname(localPath).toLowerCase();
+
     const file = fs.readFileSync(localPath, "utf-8");
-    return file;
+
+    if (ext === ".json") {
+      return parseJSON(file);
+    } else if (ext === ".yml" || ext === ".yaml") {
+      return parseYAML(file);
+    } else {
+      throw new Error("File extension not recognized");
+    }
   } catch (e) {
-    console.error(chalk.red("Error reading file"));
+    console.error(chalk.red("Error while reading and parsing the file"));
     throw e;
   }
 };
 
-const getDocumentSchemas = (file: string) => {
-  const parsedYaml = parse(file) as OpenAPIV3.Document;
-
-  if (parseInt(parsedYaml.openapi) !== 3) {
+const getDocumentSchemas = (parsedFile: OpenAPIV3.Document) => {
+  if (parseInt(parsedFile.openapi) !== 3) {
     throw new Error("OpenAPI v2 is not supported.");
   }
 
-  const { components } = parsedYaml;
+  const { components } = parsedFile;
   const { schemas } = components || {};
 
   return schemas;
@@ -154,9 +180,9 @@ const main = () => {
     console.info(chalk.bold(`🔥 genum-openapi v${packageJSON.version}`));
   }
   // Read the file
-  const file = readFile();
+  const fileData = readAndParseFile();
   // Parse OpenAPI document
-  const schemas = getDocumentSchemas(file);
+  const schemas = getDocumentSchemas(fileData);
   // Gather all enums from the JSON
   const enumsMap = collectEnums(schemas);
   // Convert gathered enums to the TS enum records

@@ -100,4 +100,16 @@ describe("CLI", () => {
       expect(stdout.trim()).toEqual(expected);
     });
   });
+
+  describe("format", () => {
+    test("JSON file", async () => {
+      const expected = fs
+        .readFileSync(new URL("./fixtures/output/enums_7.ts", import.meta.url), "utf-8")
+        .trim();
+      const { stdout } = await execa(cmd, ["test/fixtures/input/fixture_4.json"], {
+        cwd,
+      });
+      expect(stdout.trim()).toEqual(expected);
+    });
+  });
 });

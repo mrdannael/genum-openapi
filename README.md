@@ -16,7 +16,7 @@
 
 - Supports OpenAPI 3.x
 - Generate **TypeScript enums**
-- Load schemas from YAML, locally
+- Load schemas from local YAML or JSON file
 - Native Node.js code used to write this tool
 
 ## Usage
@@ -122,9 +122,8 @@ export enum InvalidCase {
 
 ## :mega: Goals
 
-1. Handle JSON schemas
-2. Fetching schema from remote resource (with Auth header if needed)
-3. Parsing multiple schemas at once (with globbing)
+1. Fetching schema from remote resource (with Auth header if needed)
+2. Parsing multiple schemas at once (with globbing)
 
 ## :couple_with_heart: Contributing
 
