@@ -6,7 +6,9 @@ import { describe, test, expect } from "vitest";
 const cwd = new URL("../", import.meta.url);
 const cmd = "./bin/cli.js";
 
-const packageJSON = JSON.parse(fs.readFileSync(new URL("../package.json", import.meta.url), "utf8"));
+const packageJSON = JSON.parse(
+  fs.readFileSync(new URL("../package.json", import.meta.url), "utf8")
+);
 
 describe("CLI", () => {
   describe("flags", () => {
