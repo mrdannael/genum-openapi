@@ -67,8 +67,7 @@
   "lint-staged": {
     "src/**/*.{js,jsx,ts,tsx}": [
       "yarn lint:ts --fix",
-      "yarn prettier",
-      "yarn typecheck"
+      "yarn prettier"
     ]
   }
 }

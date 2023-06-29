@@ -6,6 +6,8 @@ import { describe, test, expect } from "vitest";
 const cwd = new URL("../", import.meta.url);
 const cmd = "./bin/cli.js";
 
+const packageJSON = JSON.parse(fs.readFileSync(new URL("../package.json", import.meta.url), "utf8"));
+
 describe("CLI", () => {
   describe("flags", () => {
     test("--help", async () => {
@@ -15,7 +17,7 @@ describe("CLI", () => {
 
     test("--version", async () => {
       const { stdout } = await execa(cmd, ["--version"], { cwd });
-      expect(stdout).toBe("0.1.3");
+      expect(stdout).toBe(packageJSON.version);
     });
 
     // eslint-disable-next-line vitest/no-commented-out-tests

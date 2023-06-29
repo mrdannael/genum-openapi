@@ -6,6 +6,10 @@ import { Options, Replacer } from "./types";
 import { OpenAPIV3 } from "openapi-types";
 import { error } from "./utils";
 
+const packageJSON = JSON.parse(
+  fs.readFileSync(new URL("../package.json", import.meta.url), "utf8")
+);
+
 let filepath = "";
 
 const program = new Command();
@@ -135,7 +139,7 @@ const saveFile = (data: string) => {
 
       const timeEnd = process.hrtime(timeStart);
       const time = timeEnd[0] + Math.round(timeEnd[1] / 1e6);
-      console.log(chalk.green(`File generated successfully [${time}ms]`));
+      console.log(`🚢 ${chalk.green("Enums generated successfully!")} ${chalk.dim(`[${time}ms]`)}`);
     } else {
       process.stdout.write(data);
     }
@@ -146,6 +150,9 @@ const saveFile = (data: string) => {
 };
 
 const main = () => {
+  if (options.output !== "stdout") {
+    console.info(chalk.bold(`🔥 genum-openapi v${packageJSON.version}`));
+  }
   // Read the file
   const file = readFile();
   // Parse OpenAPI document
