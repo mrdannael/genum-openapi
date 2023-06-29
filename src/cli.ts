@@ -1,17 +1,16 @@
 import { Command } from "commander";
+import chalk from "chalk";
 import { parse } from "yaml";
-import ora from "ora";
 import * as fs from "node:fs";
 import { Options, Replacer } from "./types";
 import { OpenAPIV3 } from "openapi-types";
 import { error } from "./utils";
 
-const spinner = ora();
 let filepath = "";
 
 const program = new Command();
 program.showHelpAfterError("(add --help for additional information)");
-program.version("0.1.1", "-v, --version", "output the current version");
+program.version("0.1.2", "-v, --version", "output the current version");
 
 program
   .name("genum-openapi")
@@ -32,6 +31,8 @@ program
   .parse(process.argv);
 
 const options: Options = program.opts();
+
+const timeStart = process.hrtime();
 
 const replacers: Replacer[] = [
   { regExp: /[-/]/g, replaceWith: "_" },
@@ -73,7 +74,6 @@ const arrayToEnum = (enums: string[], enumName: string) => {
 };
 
 const readFile = () => {
-  spinner.start("Reading file...");
   try {
     const localPath = fs.realpathSync(filepath);
 
@@ -82,32 +82,27 @@ const readFile = () => {
     }
 
     const file = fs.readFileSync(localPath, "utf-8");
-    spinner.succeed("File read successfully");
     return file;
   } catch (e) {
-    spinner.fail();
+    console.error(chalk.red("Error reading file"));
     throw e;
   }
 };
 
-const getYamlSchemas = (file: string) => {
-  spinner.start("Parsing OpenAPI document...");
+const getDocumentSchemas = (file: string) => {
   const parsedYaml = parse(file) as OpenAPIV3.Document;
 
   if (parseInt(parsedYaml.openapi) !== 3) {
-    spinner.fail();
     throw new Error("OpenAPI v2 is not supported.");
   }
 
   const { components } = parsedYaml;
   const { schemas } = components || {};
 
-  spinner.succeed("Document parsed successfully");
   return schemas;
 };
 
 const collectEnums = (schemas: OpenAPIV3.ComponentsObject["schemas"]) => {
-  spinner.start("Collecting enums...");
   const enumsMap = new Map<string, string>();
 
   for (const key in schemas) {
@@ -122,32 +117,29 @@ const collectEnums = (schemas: OpenAPIV3.ComponentsObject["schemas"]) => {
     }
   }
 
-  spinner.succeed("Enums collected");
   return enumsMap;
 };
 
 const generateEnums = (enumsMap: Map<string, string>) => {
-  spinner.start("Generating TypeScript enums...");
   let types = "";
   enumsMap.forEach(function (enumType) {
     types += enumType;
   });
-  spinner.succeed("TypeScript enums generated");
   return types;
 };
 
 const saveFile = (data: string) => {
-  spinner.start("Saving data...");
   try {
     if (options.output !== "stdout") {
       fs.writeFileSync(options.output, data, "utf-8");
-      spinner.succeed("Data saved");
+
+      const timeEnd = process.hrtime(timeStart);
+      const time = timeEnd[0] + Math.round(timeEnd[1] / 1e6);
+      console.log(chalk.green(`File generated successfully [${time}ms]`));
     } else {
-      spinner.succeed("Data saved");
       process.stdout.write(data);
     }
   } catch (err) {
-    spinner.fail();
     error("Error occurred while saving the file");
     throw err;
   }
@@ -156,8 +148,8 @@ const saveFile = (data: string) => {
 const main = () => {
   // Read the file
   const file = readFile();
-  // Transform yaml document into JSON
-  const schemas = getYamlSchemas(file);
+  // Parse OpenAPI document
+  const schemas = getDocumentSchemas(file);
   // Gather all enums from the JSON
   const enumsMap = collectEnums(schemas);
   // Convert gathered enums to the TS enum records

@@ -1,6 +1,6 @@
 {
   "name": "genum-openapi",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Generate Typescript enums from openapi",
   "main": "./src/cli.ts",
   "keywords": [
@@ -45,7 +45,7 @@
   "scripts": {
     "start": "ts-node --esm ./src/cli.ts",
     "dev": "tsc --watch",
-    "build": "rimraf ./bin && rollup -c rollup.config.js && chmod a+x ./bin/cli.js",
+    "build": "rimraf ./bin && rollup -c rollup.config.js && chmod u+x ./bin/cli.js",
     "test": "yarn build && vitest run",
     "test:ui": "yarn build && vitest --ui",
     "prettier": "prettier --write .",

@@ -1,0 +1,12 @@
+.github/
+.husky/
+.vscode/
+src/
+test/
+.eslintignore
+.eslintrc.cjs
+.prettierignore
+.prettierrc.cjs
+rollup.config.js
+tsconfig.json
+vitest.config.ts

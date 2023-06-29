@@ -15,7 +15,7 @@ describe("CLI", () => {
 
     test("--version", async () => {
       const { stdout } = await execa(cmd, ["--version"], { cwd });
-      expect(stdout).toBe("0.1.1");
+      expect(stdout).toBe("0.1.2");
     });
 
     // eslint-disable-next-line vitest/no-commented-out-tests

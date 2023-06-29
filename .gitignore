@@ -1,7 +1,8 @@
-/bin
 /node_modules
 yarn-error.log
 enums.ts
 swagger.yaml
 .eslintcache
 /coverage
+schema.json
+enums.ts
