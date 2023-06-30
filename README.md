@@ -27,7 +27,7 @@ Generate local file with Typescript enums by running `npx genum-openapi`:
 npx genum-openapi ./path/to/the/schema.yaml -o ./path/to/generated/enums.ts
 ```
 
-:warning: Make sure that all your schemas are [validated](https://redocly.com/docs/cli/commands/lint/) before using them with this tool.
+:warning: Make sure that all your schemas are validated before using them with [this](https://redocly.com/docs/cli/commands/lint/) tool.
 
 Then you can import the enums from the generated file:
 
