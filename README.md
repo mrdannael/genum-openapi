@@ -47,15 +47,16 @@ export const App = () => {
 
 Following flags are available for the CLI tool.
 
-| Option        | Alias | Default  | Description                                                                         |
-| :------------ | :---- | :------: | :---------------------------------------------------------------------------------- |
-| `--help`      | `-h`  |          | Display help for command                                                            |
-| `--version`   | `-v`  |          | Output the current version                                                          |
-| `--output`    | `-o`  | (stdout) | Path of the output file                                                             |
-| `--exclude`   | `-e`  |          | Names of enums from OpenAPI document to exclude                                     |
-| `--suffix`    | `-s`  |   Enum   | Put suffix at the end of the enum name if it does not already exists                |
-| `--parse`     | `-p`  |          | Parse enum keys that can be invalid (replace `.` with `__` and `-` or `/` with `_`) |
-| `--uppercase` | `-u`  |          | Parse all enum keys to be uppercase (commonly used with `--parse` option)           |
+| Option        | Alias | Default  | Description                                                                             |
+| :------------ | :---- | :------: | :-------------------------------------------------------------------------------------- |
+| `--help`      | `-h`  |          | Display help for command                                                                |
+| `--version`   | `-v`  |          | Output the current version                                                              |
+| `--output`    | `-o`  | (stdout) | Path of the output file                                                                 |
+| `--exclude`   | `-e`  |          | Names of enums from OpenAPI document to exclude                                         |
+| `--prefix`    | `-p`  |          | Put prefix at the beggining of the enum name                                            |
+| `--suffix`    | `-s`  |   Enum   | Put suffix at the end of the enum name if it does not already exists                    |
+| `--normalize` | `-n`  |          | Normalize enum keys that can be invalid (replace `.` with `__` and `-` or `/` with `_`) |
+| `--uppercase` | `-u`  |          | Parse all enum keys to be uppercase (commonly used with `--parse` option)               |
 
 ### :book: Examples
 
@@ -94,7 +95,23 @@ export enum ColorsEnum {
 }
 ```
 
-2. [`--suffix`] option should add provided string at the end of the enums name:
+2. [`--prefix I`] option should add provided string at the beggining of the enums names:
+
+```ts
+export enum IStatus {
+  [...]
+}
+
+export enum IColorsEnum {
+  [...]
+}
+
+export enum IInvalidCase {
+  [...]
+}
+```
+
+3. [`--suffix`] option should add provided string at the end of the enums names (when not provided `Enum` is used by default):
 
 ```ts
 export enum StatusEnum {
@@ -110,7 +127,7 @@ export enum InvalidCaseEnum {
 }
 ```
 
-3. With [`--parse`] and [`--exclude`] options, generated file should contain parsed values of enum keys:
+4. With [`--parse`] and [`--exclude`] options, generated file should contain parsed values of enum keys:
 
 ```ts
 [...]

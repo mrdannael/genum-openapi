@@ -52,6 +52,16 @@ describe("CLI", () => {
       expect(stdout.trim()).toEqual(expected);
     });
 
+    test("--prefix 'I'", async () => {
+      const expected = fs
+        .readFileSync(new URL("./fixtures/output/enums_8.ts", import.meta.url), "utf-8")
+        .trim();
+      const { stdout } = await execa(cmd, ["test/fixtures/input/fixture_1.yaml", "--prefix", "I"], {
+        cwd,
+      });
+      expect(stdout.trim()).toEqual(expected);
+    });
+
     test("--suffix (default 'Enum')", async () => {
       const expected = fs
         .readFileSync(new URL("./fixtures/output/enums_3.ts", import.meta.url), "utf-8")
@@ -76,23 +86,23 @@ describe("CLI", () => {
       expect(stdout.trim()).toEqual(expected);
     });
 
-    test("--parse", async () => {
+    test("--normalize", async () => {
       const expected = fs
         .readFileSync(new URL("./fixtures/output/enums_5.ts", import.meta.url), "utf-8")
         .trim();
-      const { stdout } = await execa(cmd, ["test/fixtures/input/fixture_2.yaml", "--parse"], {
+      const { stdout } = await execa(cmd, ["test/fixtures/input/fixture_2.yaml", "--normalize"], {
         cwd,
       });
       expect(stdout.trim()).toEqual(expected);
     });
 
-    test("--uppercase (with --parse)", async () => {
+    test("--uppercase (with --normalize)", async () => {
       const expected = fs
         .readFileSync(new URL("./fixtures/output/enums_6.ts", import.meta.url), "utf-8")
         .trim();
       const { stdout } = await execa(
         cmd,
-        ["test/fixtures/input/fixture_2.yaml", "--parse", "--uppercase"],
+        ["test/fixtures/input/fixture_2.yaml", "--normalize", "--uppercase"],
         {
           cwd,
         }

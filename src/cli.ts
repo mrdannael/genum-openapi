@@ -23,11 +23,15 @@ program
   .description("Simple CLI for generating Typescript enums from OpenAPI document.")
   .argument("<file>", "OpenAPI source file")
   .option("-x, --exclude <enumNames...>", "names of enums to exclude from OpenAPI document")
+  .option("-p, --prefix <prefix>", "place specified prefix at the beginning of the enum name")
   .option(
     "-s, --suffix [suffix]",
     "place specified suffix at the end of the enum name if does not exists (default suffix if empty option provided: Enum)"
   )
-  .option("-p, --parse", "parse enums keys that are not valid (ie. change . to __ and - or / to _)")
+  .option(
+    "-n, --normalize",
+    "normalize enums keys that are not valid (ie. change . to __ and - or / to _)"
+  )
   .option("-u, --uppercase", "parse all enums keys to be uppercase")
   .option("-o, --output <file>", "path of the output file", "stdout")
   .action((path) => {
@@ -51,7 +55,7 @@ const parseValue = (value: string) => {
     inputValue = inputValue.toUpperCase();
   }
 
-  if (options.parse) {
+  if (options.normalize) {
     replacers.forEach(({ regExp, replaceWith }) => {
       inputValue = inputValue.replace(regExp, replaceWith);
     });
@@ -85,7 +89,7 @@ const arrayToEnum = (enums: string[], enumName: string) => {
     })
     .join(",\n  ");
 
-  let name = enumName;
+  let name = options.prefix ? `${options.prefix}${enumName}` : enumName;
   if (options.suffix) {
     const enumSuffix = typeof options.suffix === "string" ? options.suffix : "Enum";
     name = enumName.includes(enumSuffix) ? enumName : `${enumName}${enumSuffix}`;
