@@ -109,6 +109,21 @@ describe("CLI", () => {
       );
       expect(stdout.trim()).toEqual(expected);
     });
+
+    test("all at once", async () => {
+      const expected = fs
+        .readFileSync(new URL("./fixtures/output/enums_9.ts", import.meta.url), "utf-8")
+        .trim();
+
+      const { stdout } = await execa(
+        cmd,
+        ["test/fixtures/input/fixture_2.yaml", "-uns", "-p", "I", "-x", "AgencyRevenueType"],
+        {
+          cwd,
+        }
+      );
+      expect(stdout.trim()).toEqual(expected);
+    });
   });
 
   describe("format", () => {

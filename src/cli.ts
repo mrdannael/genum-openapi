@@ -92,7 +92,7 @@ const arrayToEnum = (enums: string[], enumName: string) => {
   let name = options.prefix ? `${options.prefix}${enumName}` : enumName;
   if (options.suffix) {
     const enumSuffix = typeof options.suffix === "string" ? options.suffix : "Enum";
-    name = enumName.includes(enumSuffix) ? enumName : `${enumName}${enumSuffix}`;
+    name = name.includes(enumSuffix) ? name : `${name}${enumSuffix}`; // TODO: better checking of suffix existence at the end of name
   }
 
   const enumType = `export enum ${name} {\n  ${enumString}\n}\n\n`;
