@@ -47,16 +47,17 @@ export const App = () => {
 
 Following flags are available for the CLI tool.
 
-| Option        | Alias | Default  | Description                                                                             |
-| :------------ | :---- | :------: | :-------------------------------------------------------------------------------------- |
-| `--help`      | `-h`  |          | Display help for command                                                                |
-| `--version`   | `-v`  |          | Output the current version                                                              |
-| `--output`    | `-o`  | (stdout) | Path of the output file                                                                 |
-| `--exclude`   | `-e`  |          | Names of enums from OpenAPI document to exclude                                         |
-| `--prefix`    | `-p`  |          | Put prefix at the beggining of the enum name                                            |
-| `--suffix`    | `-s`  |   Enum   | Put suffix at the end of the enum name if it does not already exists                    |
-| `--normalize` | `-n`  |          | Normalize enum keys that can be invalid (replace `.` with `__` and `-` or `/` with `_`) |
-| `--uppercase` | `-u`  |          | Parse all enum keys to be uppercase (commonly used with `--parse` option)               |
+| Option        | Alias | Default  | Description                                                                                                       |
+| :------------ | :---- | :------: | :---------------------------------------------------------------------------------------------------------------- |
+| `--help`      | `-h`  |          | Display help for command                                                                                          |
+| `--version`   | `-v`  |          | Output the current version                                                                                        |
+| `--output`    | `-o`  | (stdout) | Path of the output file                                                                                           |
+| `--exclude`   | `-e`  |          | Names of enums from OpenAPI document to exclude                                                                   |
+| `--prefix`    | `-p`  |          | Put prefix at the beggining of the enum name                                                                      |
+| `--suffix`    | `-s`  |   Enum   | Put suffix at the end of the enum name if it does not already exists                                              |
+| `--prenum`    |       |          | Put specified prefix before the enum key name that starts with a number (underscore by default when not provided) |
+| `--normalize` | `-n`  |          | Normalize enum keys that can be invalid (replace `.` with `__` and `-` or `/` with `_`)                           |
+| `--uppercase` | `-u`  |          | Parse all enum keys to be uppercase (commonly used with `--parse` option)                                         |
 
 ### :book: Examples
 
@@ -84,9 +85,15 @@ components:
         - SOME/WEIRD-Strings
         - annother.weird.string
       type: string
+    StartWithNumber:
+      enum:
+        - 250x330
+        - 70x40
+        - OTHER
+      type: string
 ```
 
-1. By providing [`--exclude Status InvalidCase`] option, generated file should contain only _ColorsEnum_:
+1. By providing [`--exclude Status InvalidCase StartWithNumber`] option, generated file should contain only _ColorsEnum_:
 
 ```ts
 export enum ColorsEnum {
@@ -109,6 +116,10 @@ export enum IColorsEnum {
 export enum IInvalidCase {
   [...]
 }
+
+export enum IStartWithNumber {
+  [...]
+}
 ```
 
 3. [`--suffix`] option should add provided string at the end of the enums names (when not provided `Enum` is used by default):
@@ -125,6 +136,10 @@ export enum ColorsEnum {
 export enum InvalidCaseEnum {
   [...]
 }
+
+export enum StartWithNumberEnum {
+  [...]
+}
 ```
 
 4. With [`--parse`] and [`--exclude`] options, generated file should contain parsed values of enum keys:
@@ -135,6 +150,19 @@ export enum InvalidCase {
   SOME_WEIRD_STRINGS = "SOME/WEIRD-Strings",
   ANOTHER__WEIRD__STRING = "another.weird.string"
 }
+[...]
+```
+
+5. With [`--prenum $`] option, keys of enums should be prefixed with a `$` sign (by default enum keys that starts with a number are prefixed with an underscore):
+
+```ts
+[...]
+export enum StartWithNumber {
+  $250x330 = "250x330",
+  $70x40 = "70x40",
+  OTHER = "OTHER"
+}
+[...]
 ```
 
 ## :mega: Goals

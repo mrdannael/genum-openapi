@@ -5,6 +5,7 @@ export interface Options {
   suffix?: string | boolean;
   normalize?: boolean;
   uppercase?: boolean;
+  prenum?: string;
   output: string;
 }
 

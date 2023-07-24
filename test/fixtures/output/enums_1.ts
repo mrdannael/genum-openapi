@@ -17,3 +17,10 @@ export enum AgencyStatus {
   ACTIVE = "ACTIVE",
   ARCHIVED = "ARCHIVED"
 }
+
+export enum ImageSize {
+  _300x250 = "300x250",
+  _180x150 = "180x150",
+  _125x125 = "125x125",
+  OTHER = "OTHER"
+}

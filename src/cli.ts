@@ -25,6 +25,10 @@ program
   .option("-x, --exclude <enumNames...>", "names of enums to exclude from OpenAPI document")
   .option("-p, --prefix <prefix>", "place specified prefix at the beginning of the enum name")
   .option(
+    "--prenum <prenum>",
+    "place specified prefix instead of underscore before the enum name that starts with a number"
+  )
+  .option(
     "-s, --suffix [suffix]",
     "place specified suffix at the end of the enum name if does not exists (default suffix if empty option provided: Enum)"
   )
@@ -50,6 +54,10 @@ const replacers: Replacer[] = [
 
 const parseValue = (value: string) => {
   let inputValue = value;
+
+  if (/^\d/.test(inputValue)) {
+    inputValue = `${options.prenum || "_"}${inputValue}`;
+  }
 
   if (options.uppercase) {
     inputValue = inputValue.toUpperCase();
@@ -105,7 +113,7 @@ const readAndParseFile = () => {
     const localPath = fs.realpathSync(filepath);
 
     if (fs.statSync(localPath).isDirectory()) {
-      throw new Error(`${localPath} is a directory`);
+      throw new Error(chalk.red(`${localPath} is a directory`));
     }
 
     const ext = path.extname(localPath).toLowerCase();
@@ -117,7 +125,7 @@ const readAndParseFile = () => {
     } else if (ext === ".yml" || ext === ".yaml") {
       return parseYAML(file);
     } else {
-      throw new Error("File extension not recognized");
+      throw new Error(chalk.red("File extension not recognized"));
     }
   } catch (e) {
     console.error(chalk.red("Error while reading and parsing the file"));
@@ -127,7 +135,7 @@ const readAndParseFile = () => {
 
 const getDocumentSchemas = (parsedFile: OpenAPIV3.Document) => {
   if (parseInt(parsedFile.openapi) !== 3) {
-    throw new Error("OpenAPI v2 is not supported.");
+    throw new Error(chalk.red("OpenAPI v2 is not supported."));
   }
 
   const { components } = parsedFile;
@@ -179,10 +187,18 @@ const saveFile = (data: string) => {
   }
 };
 
+const validateOptions = (options: Options) => {
+  if (options.prenum && !/^(_|\$|[A-Za-z])+$/.test(options.prenum)) {
+    throw new Error(chalk.red("Forbidden prenum provided. Only _, $, or letters are allowed."));
+  }
+};
+
 const main = () => {
   if (options.output !== "stdout") {
     console.info(chalk.bold(`🔥 genum-openapi v${packageJSON.version}`));
   }
+  // Check if provided options are valid
+  validateOptions(options);
   // Read the file
   const fileData = readAndParseFile();
   // Parse OpenAPI document

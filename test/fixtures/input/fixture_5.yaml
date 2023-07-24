@@ -1,0 +1,12 @@
+openapi: 3.0.3
+info:
+  title: Example OpenApi description
+  version: 0.0.0
+components:
+  schemas:
+    ImageSize:
+      enum:
+      - 300x250
+      - 180x150
+      - 125x125
+      - OTHER

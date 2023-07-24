@@ -24,3 +24,9 @@ components:
         - ACTIVE
         - ARCHIVED
       type: string
+    ImageSize:
+      enum:
+      - 300x250
+      - 180x150
+      - 125x125
+      - OTHER

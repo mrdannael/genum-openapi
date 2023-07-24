@@ -110,6 +110,24 @@ describe("CLI", () => {
       expect(stdout.trim()).toEqual(expected);
     });
 
+    test("with allowed --prenum", async () => {
+      const expected = fs
+        .readFileSync(new URL("./fixtures/output/enums_10.ts", import.meta.url), "utf-8")
+        .trim();
+      const { stdout } = await execa(cmd, ["test/fixtures/input/fixture_5.yaml", "--prenum", "$"], {
+        cwd,
+      });
+      expect(stdout.trim()).toEqual(expected);
+    });
+
+    test.todo("with not allowed --prenum", async () => {
+      expect(async () => {
+        await execa(cmd, ["test/fixtures/input/fixture_5.yaml", "--prenum", "-"], {
+          cwd,
+        });
+      }).toThrowError("Forbidden prenum provided. Only _, $, or letters are allowed");
+    });
+
     test("all at once", async () => {
       const expected = fs
         .readFileSync(new URL("./fixtures/output/enums_9.ts", import.meta.url), "utf-8")
