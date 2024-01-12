@@ -10,6 +10,7 @@ export enum IAgencyServiceTypeEnum {
 
 export enum IAgencyStatusEnum {
   SOME_WEIRD_STRINGS = "SOME/WEIRD-Strings",
-  ANNOTHER__WEIRD__STRING = "annother.weird.string"
+  ANNOTHER__WEIRD__STRING = "annother.weird.string",
+  JUST_ANOTHER_WEIRD_STRING = "just(another)weird string"
 }
 

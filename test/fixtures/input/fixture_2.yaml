@@ -23,4 +23,5 @@ components:
       enum:
         - SOME/WEIRD-Strings
         - annother.weird.string
+        - just(another)weird string
       type: string

@@ -48,7 +48,7 @@ const options: Options = program.opts();
 const timeStart = process.hrtime();
 
 const replacers: Replacer[] = [
-  { regExp: /[-/]/g, replaceWith: "_" },
+  { regExp: /[-/ ()]/g, replaceWith: "_" },
   { regExp: /[.]/g, replaceWith: "__" },
 ];
 
