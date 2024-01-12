@@ -83,7 +83,8 @@ components:
     InvalidCase:
       enum:
         - SOME/WEIRD-Strings
-        - annother.weird.string
+        - another.weird.string
+        - just(another)weird string
       type: string
     StartWithNumber:
       enum:
@@ -149,6 +150,7 @@ export enum StartWithNumberEnum {
 export enum InvalidCase {
   SOME_WEIRD_STRINGS = "SOME/WEIRD-Strings",
   ANOTHER__WEIRD__STRING = "another.weird.string"
+  JUST_ANOTHER_WEIRD_STRING = "just(another)weird string"
 }
 [...]
 ```

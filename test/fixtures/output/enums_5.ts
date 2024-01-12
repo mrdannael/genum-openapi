@@ -15,6 +15,6 @@ export enum AgencyServiceTypeEnum {
 
 export enum AgencyStatus {
   SOME_WEIRD_Strings = "SOME/WEIRD-Strings",
-  annother__weird__string = "annother.weird.string"
+  another__weird__string = "another.weird.string",
+  just_another_weird_string = "just(another)weird string"
 }
-
