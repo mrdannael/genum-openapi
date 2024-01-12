@@ -83,7 +83,7 @@ components:
     InvalidCase:
       enum:
         - SOME/WEIRD-Strings
-        - annother.weird.string
+        - another.weird.string
         - just(another)weird string
       type: string
     StartWithNumber:
