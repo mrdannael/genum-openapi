@@ -128,6 +128,16 @@ describe("CLI", () => {
       }).toThrowError("Forbidden prenum provided. Only _, $, or letters are allowed");
     });
 
+    test("with having . inside enum", async () => {
+      const expected = fs
+        .readFileSync(new URL("./fixtures/output/enums_11.ts", import.meta.url), "utf-8")
+        .trim();
+      const { stdout } = await execa(cmd, ["test/fixtures/input/fixture_6.yaml"], {
+        cwd,
+      });
+      expect(stdout.trim()).toEqual(expected);
+    });
+
     test("all at once", async () => {
       const expected = fs
         .readFileSync(new URL("./fixtures/output/enums_9.ts", import.meta.url), "utf-8")

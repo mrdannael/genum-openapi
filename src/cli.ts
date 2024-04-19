@@ -103,6 +103,10 @@ const arrayToEnum = (enums: string[], enumName: string) => {
     name = name.includes(enumSuffix) ? name : `${name}${enumSuffix}`; // TODO: better checking of suffix existence at the end of name
   }
 
+  if (name.includes(".")) {
+    name = name.replace(/\./g, "_");
+  }
+
   const enumType = `export enum ${name} {\n  ${enumString}\n}\n\n`;
 
   return enumType;
