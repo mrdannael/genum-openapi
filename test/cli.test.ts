@@ -132,7 +132,7 @@ describe("CLI", () => {
       const expected = fs
         .readFileSync(new URL("./fixtures/output/enums_11.ts", import.meta.url), "utf-8")
         .trim();
-      const { stdout } = await execa(cmd, ["test/fixtures/input/fixture_6.yaml"], {
+      const { stdout } = await execa(cmd, ["test/fixtures/input/fixture_6.yaml", "--normalize"], {
         cwd,
       });
       expect(stdout.trim()).toEqual(expected);

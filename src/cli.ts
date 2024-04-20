@@ -104,7 +104,7 @@ const arrayToEnum = (enums: string[], enumName: string) => {
   }
 
   if (name.includes(".")) {
-    name = name.replace(/\./g, "_");
+    name = parseValue(name);
   }
 
   const enumType = `export enum ${name} {\n  ${enumString}\n}\n\n`;
