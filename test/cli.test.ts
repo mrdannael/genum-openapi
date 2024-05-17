@@ -96,6 +96,20 @@ describe("CLI", () => {
       expect(stdout.trim()).toEqual(expected);
     });
 
+    test("--custom-replacers (with --normalize)", async () => {
+      const expected = fs
+        .readFileSync(new URL("./fixtures/output/enums_11.ts", import.meta.url), "utf-8")
+        .trim();
+      const { stdout } = await execa(
+        cmd,
+        ["test/fixtures/input/fixture_6.yaml", "--custom-replacers", "[{ \"regExp\":\"[{}]\", \"replaceWith\": \"empty\" }]", "--normalize"],
+        {
+          cwd,
+        }
+      );
+      expect(stdout.trim()).toEqual(expected);
+    });
+
     test("--uppercase (with --normalize)", async () => {
       const expected = fs
         .readFileSync(new URL("./fixtures/output/enums_6.ts", import.meta.url), "utf-8")

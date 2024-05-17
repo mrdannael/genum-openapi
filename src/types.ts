@@ -7,6 +7,7 @@ export interface Options {
   uppercase?: boolean;
   prenum?: string;
   output: string;
+  customReplacers?: string;
 }
 
 export interface Replacer {

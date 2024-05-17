@@ -1,0 +1,9 @@
+openapi: 3.0.3
+info:
+  title: Example OpenApi description
+  version: 0.0.0
+components:
+  schemas:
+    BasedOnEnum:
+      enum:
+      - '{INSIDE_CURLY_BRACES}'

@@ -57,7 +57,7 @@ Following flags are available for the CLI tool.
 | `--suffix`    | `-s`  |   Enum   | Put suffix at the end of the enum name if it does not already exists                                              |
 | `--prenum`    |       |          | Put specified prefix before the enum key name that starts with a number (underscore by default when not provided) |
 | `--normalize` | `-n`  |          | Normalize enum keys that can be invalid (replace `.` with `__` and `-` or `/` with `_`)                           |
-| `--uppercase` | `-u`  |          | Parse all enum keys to be uppercase (commonly used with `--parse` option)                                         |
+| `--uppercase` | `-u`  |          | Parse all enum keys to be uppercase (commonly used with `--normalize` option)                                         |
 
 ### :book: Examples
 
@@ -92,9 +92,12 @@ components:
         - 70x40
         - OTHER
       type: string
+    WithCurlyBrackets:
+      enum:
+        - '{INSIDE_CURLY_BRACKETS}'
 ```
 
-1. By providing [`--exclude Status InvalidCase StartWithNumber`] option, generated file should contain only _ColorsEnum_:
+1. By providing [`--exclude Status InvalidCase StartWithNumber WithCurlyBrackets`] option, generated file should contain only _ColorsEnum_:
 
 ```ts
 export enum ColorsEnum {
@@ -121,6 +124,10 @@ export enum IInvalidCase {
 export enum IStartWithNumber {
   [...]
 }
+
+export enum IWithCurlyBrackets {
+  [...]
+}
 ```
 
 3. [`--suffix`] option should add provided string at the end of the enums names (when not provided `Enum` is used by default):
@@ -141,9 +148,13 @@ export enum InvalidCaseEnum {
 export enum StartWithNumberEnum {
   [...]
 }
+
+export enum WithCurlyBracketsEnum {
+  [...]
+}
 ```
 
-4. With [`--parse`] and [`--exclude`] options, generated file should contain parsed values of enum keys:
+4. With [`--normalize`] and [`--uppercase`] options, generated file should contain parsed values of enum keys:
 
 ```ts
 [...]
@@ -163,6 +174,16 @@ export enum StartWithNumber {
   $250x330 = "250x330",
   $70x40 = "70x40",
   OTHER = "OTHER"
+}
+[...]
+```
+
+6. You can pass custom replacers to the cli with [`--custom-replacers '[{ "regExp":"[{}]", "replaceWith": "empty" }]'`] to replace any strings as you like. Keep in mind that in the provided example we want to replace `{}` with `""`, but due to `JSON.parse` used as the parsing method, we cannot simply pass `""` as a `replaceWith` property, instead we pass `"empty"` to handle replacing `{}` with `""`.
+
+```ts
+[...]
+export enum WithCurlyBrackets {
+  INSIDE_CURLY_BRACKETS = "{INSIDE_CURLY_BRACKETS}"
 }
 [...]
 ```

@@ -30,7 +30,7 @@ program
   )
   .option(
     "-s, --suffix [suffix]",
-    "place specified suffix at the end of the enum name if does not exists (default suffix if empty option provided: Enum)"
+    "place specified suffix at the end of the enum name if does not exist (default suffix if empty option provided: Enum)"
   )
   .option(
     "-n, --normalize",
@@ -38,6 +38,10 @@ program
   )
   .option("-u, --uppercase", "parse all enums keys to be uppercase")
   .option("-o, --output <file>", "path of the output file", "stdout")
+  .option(
+    "-r, --custom-replacers <replacers>",
+    'custom replacers in JSON format, e.g. \'[{"regExp":"[-/]","replaceWith":"_"}]\''
+  )
   .action((path) => {
     filepath = path;
   })
@@ -47,10 +51,17 @@ const options: Options = program.opts();
 
 const timeStart = process.hrtime();
 
-const replacers: Replacer[] = [
+const defaultReplacers: Replacer[] = [
   { regExp: /[-/ ()]/g, replaceWith: "_" },
   { regExp: /[.]/g, replaceWith: "__" },
 ];
+
+// eslint-disable-next-line quotes
+const customReplacers: Replacer[] = options.customReplacers
+  ? JSON.parse(options.customReplacers.replace(/"empty"/g, '""'))
+  : [];
+
+const replacers: Replacer[] = [...defaultReplacers, ...customReplacers];
 
 const parseValue = (value: string) => {
   let inputValue = value;
@@ -65,7 +76,7 @@ const parseValue = (value: string) => {
 
   if (options.normalize) {
     replacers.forEach(({ regExp, replaceWith }) => {
-      inputValue = inputValue.replace(regExp, replaceWith);
+      inputValue = inputValue.replace(new RegExp(regExp, "g"), replaceWith);
     });
   }
 
@@ -190,6 +201,19 @@ const saveFile = (data: string) => {
 const validateOptions = (options: Options) => {
   if (options.prenum && !/^(_|\$|[A-Za-z])+$/.test(options.prenum)) {
     throw new Error(chalk.red("Forbidden prenum provided. Only _, $, or letters are allowed."));
+  }
+  if (options.customReplacers) {
+    try {
+      const parsedReplacers = JSON.parse(options.customReplacers);
+      if (
+        !Array.isArray(parsedReplacers) ||
+        !parsedReplacers.every((replacer) => replacer.regExp && replacer.replaceWith)
+      ) {
+        throw new Error("Invalid custom replacers format.");
+      }
+    } catch {
+      throw new Error(chalk.red("Invalid custom replacers format. Must be a valid JSON array."));
+    }
   }
 };
 
