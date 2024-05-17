@@ -40,6 +40,7 @@ program
   .option("-o, --output <file>", "path of the output file", "stdout")
   .option(
     "-r, --custom-replacers <replacers>",
+    // eslint-disable-next-line quotes
     'custom replacers in JSON format, e.g. \'[{"regExp":"[-/]","replaceWith":"_"}]\''
   )
   .action((path) => {
@@ -56,9 +57,9 @@ const defaultReplacers: Replacer[] = [
   { regExp: /[.]/g, replaceWith: "__" },
 ];
 
-// eslint-disable-next-line quotes
 const customReplacers: Replacer[] = options.customReplacers
-  ? JSON.parse(options.customReplacers.replace(/"empty"/g, '""'))
+  ? // eslint-disable-next-line quotes
+    JSON.parse(options.customReplacers.replace(/"empty"/g, '""'))
   : [];
 
 const replacers: Replacer[] = [...defaultReplacers, ...customReplacers];
