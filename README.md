@@ -57,7 +57,7 @@ Following flags are available for the CLI tool.
 | `--suffix`    | `-s`  |   Enum   | Put suffix at the end of the enum name if it does not already exists                                              |
 | `--prenum`    |       |          | Put specified prefix before the enum key name that starts with a number (underscore by default when not provided) |
 | `--normalize` | `-n`  |          | Normalize enum keys that can be invalid (replace `.` with `__` and `-` or `/` with `_`)                           |
-| `--uppercase` | `-u`  |          | Parse all enum keys to be uppercase (commonly used with `--normalize` option)                                         |
+| `--uppercase` | `-u`  |          | Parse all enum keys to be uppercase (commonly used with `--normalize` option)                                     |
 
 ### :book: Examples
 
@@ -94,7 +94,7 @@ components:
       type: string
     WithCurlyBrackets:
       enum:
-        - '{INSIDE_CURLY_BRACKETS}'
+        - "{INSIDE_CURLY_BRACKETS}"
 ```
 
 1. By providing [`--exclude Status InvalidCase StartWithNumber WithCurlyBrackets`] option, generated file should contain only _ColorsEnum_:

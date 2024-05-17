@@ -102,7 +102,13 @@ describe("CLI", () => {
         .trim();
       const { stdout } = await execa(
         cmd,
-        ["test/fixtures/input/fixture_6.yaml", "--custom-replacers", "[{ \"regExp\":\"[{}]\", \"replaceWith\": \"empty\" }]", "--normalize"],
+        [
+          "test/fixtures/input/fixture_6.yaml",
+          "--custom-replacers",
+          // eslint-disable-next-line quotes
+          '[{ "regExp":"[{}]", "replaceWith": "empty" }]',
+          "--normalize",
+        ],
         {
           cwd,
         }
