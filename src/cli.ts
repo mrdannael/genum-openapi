@@ -57,10 +57,11 @@ const defaultReplacers: Replacer[] = [
   { regExp: /[.]/g, replaceWith: "__" },
 ];
 
+/* eslint-disable quotes */
 const customReplacers: Replacer[] = options.customReplacers
-  ? // eslint-disable-next-line quotes
-    JSON.parse(options.customReplacers.replace(/"empty"/g, '""'))
+  ? JSON.parse(options.customReplacers.replace(/"empty"/g, '""'))
   : [];
+/* eslint-enable quotes */
 
 const replacers: Replacer[] = [...defaultReplacers, ...customReplacers];
 
