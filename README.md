@@ -6,7 +6,7 @@
 
 #
 
-[![Tech used](https://skills.thijs.gg/icons?i=nodejs,ts)](https://skills.thijs.gg)
+[![Tech used](https://skillicons.dev/icons?i=nodejs,ts)](https://skillicons.dev/)
 
 ## About
 
