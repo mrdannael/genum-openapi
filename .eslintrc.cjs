@@ -7,7 +7,7 @@ module.exports = {
     "prettier",
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
-    "plugin:node/recommended",
+    "plugin:n/recommended",
     "plugin:vitest/recommended",
     "plugin:import/typescript",
   ],
@@ -27,10 +27,16 @@ module.exports = {
     ecmaVersion: "latest",
     sourceType: "module",
   },
-  plugins: ["@typescript-eslint", "node", "vitest", "prettier", "import"],
+  plugins: [
+    "prettier",
+    "@typescript-eslint",
+    "n",
+    "vitest",
+    "import"
+  ],
   rules: {
-    "node/no-unpublished-import": "off",
-    "node/no-missing-import": "off",
+    "n/no-unpublished-import": "off",
+    "n/no-missing-import": "off",
     indent: ["error", 2],
     "linebreak-style": ["error", "unix"],
     quotes: ["error", "double"],
