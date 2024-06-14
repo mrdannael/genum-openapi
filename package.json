@@ -37,7 +37,7 @@
     "execa": "^7.1.1",
     "husky": "^8.0.3",
     "lint-staged": "^13.2.2",
-    "prettier": "^2.8.8",
+    "prettier": "^3.3.2",
     "rimraf": "^5.0.7",
     "rollup": "^4.18.0",
     "ts-node": "^10.9.2",
@@ -52,6 +52,7 @@
     "test:ui": "yarn build && vitest --ui --coverage.enabled=true",
     "test:coverage": "yarn build && vitest run --coverage",
     "prettier": "prettier --write .",
+    "prettier:check": "prettier --check .",
     "typecheck": "tsc --noemit",
     "lint:ts": "eslint '**/*.{js,jsx,ts,tsx}' --max-warnings 0 --cache",
     "prepare": "husky install"

@@ -5,7 +5,7 @@ export default defineConfig({
     clearMocks: true,
     globals: true,
     coverage: {
-      include: ["src/**"]
-    }
+      include: ["src/**"],
+    },
   },
 });
