@@ -47,22 +47,22 @@ export const App = () => {
 
 Following flags are available for the CLI tool.
 
-| Option              | Alias | Default   | Description                                                                                                                |
-| :------------------ | :---- | :-------: | :------------------------------------------------------------------------------------------------------------------------- |
-| `--help`            | `-h`  |           | Display help for the command                                                                                               |
-| `--version`         | `-v`  |           | Output the current version                                                                                                 | 
-| `--output`          | `-o`  | (stdout)  | Path of the output file                                                                                                    |
-| `--exclude`         | `-e`  |           | Names of enums from the OpenAPI document to exclude                                                                        |
-| `--prefix`          | `-p`  |           | Add a prefix to the beginning of the enum name                                                                             |
-| `--suffix`          | `-s`  |   Enum    | Add a suffix to the end of the enum name if it does not already exist                                                      |
-| `--prenum`          |       |     _     | Add a specified prefix before the enum exported name that starts with a number (underscore by default if not provided)     |
-| `--normalize`       | `-n`  |   false   | Normalize exported enum names and keys that are not valid (replace `.` with `__` and `-` or `/` with `_`)                  |
-| `--normalize-keys`  |       |   false   | Normalize only enum keys that are not valid                                                                                |
-| `--normalize-names` |       |   false   | Normalize only exported enum names that are not valid                                                                      |
-| `--uppercase`       | `-u`  |   false   | Convert exported enum names and keys to uppercase (commonly used with the `--normalize` option)                            |
-| `--uppercase-keys`  |       |   false   | Convert only enum keys to uppercase                                                                                        |
-| `--uppercase-names` |       |   false   | Convert only exported enum names to uppercase                                                                              |
-| `--custom-replacers`|       |           | Custom replacers applied during the normalization process, in JSON format, e.g., `'[{"regExp":"[-/]","replaceWith":"_"}]'` |
+| Option               | Alias | Default  | Description                                                                                                                |
+| :------------------- | :---- | :------: | :------------------------------------------------------------------------------------------------------------------------- |
+| `--help`             | `-h`  |          | Display help for the command                                                                                               |
+| `--version`          | `-v`  |          | Output the current version                                                                                                 |
+| `--output`           | `-o`  | (stdout) | Path of the output file                                                                                                    |
+| `--exclude`          | `-e`  |          | Names of enums from the OpenAPI document to exclude                                                                        |
+| `--prefix`           | `-p`  |          | Add a prefix to the beginning of the enum name                                                                             |
+| `--suffix`           | `-s`  |   Enum   | Add a suffix to the end of the enum name if it does not already exist                                                      |
+| `--prenum`           |       |    \_    | Add a specified prefix before the enum exported name that starts with a number (underscore by default if not provided)     |
+| `--normalize`        | `-n`  |  false   | Normalize exported enum names and keys that are not valid (replace `.` with `__` and `-` or `/` with `_`)                  |
+| `--normalize-keys`   |       |  false   | Normalize only enum keys that are not valid                                                                                |
+| `--normalize-names`  |       |  false   | Normalize only exported enum names that are not valid                                                                      |
+| `--uppercase`        | `-u`  |  false   | Convert exported enum names and keys to uppercase (commonly used with the `--normalize` option)                            |
+| `--uppercase-keys`   |       |  false   | Convert only enum keys to uppercase                                                                                        |
+| `--uppercase-names`  |       |  false   | Convert only exported enum names to uppercase                                                                              |
+| `--custom-replacers` |       |          | Custom replacers applied during the normalization process, in JSON format, e.g., `'[{"regExp":"[-/]","replaceWith":"_"}]'` |
 
 ### :book: Examples
 

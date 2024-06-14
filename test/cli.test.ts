@@ -44,7 +44,7 @@ describe("CLI", () => {
           "--exclude",
           "AgencyServiceTypeEnum",
           "AgencyStatus",
-          "Email.Status"
+          "Email.Status",
         ],
         {
           cwd,
@@ -101,9 +101,13 @@ describe("CLI", () => {
       const expected = fs
         .readFileSync(new URL("./fixtures/output/enums_12.ts", import.meta.url), "utf-8")
         .trim();
-      const { stdout } = await execa(cmd, ["test/fixtures/input/fixture_7.yaml", "--normalize-keys"], {
-        cwd,
-      });
+      const { stdout } = await execa(
+        cmd,
+        ["test/fixtures/input/fixture_7.yaml", "--normalize-keys"],
+        {
+          cwd,
+        }
+      );
       expect(stdout.trim()).toEqual(expected);
     });
 
@@ -111,9 +115,13 @@ describe("CLI", () => {
       const expected = fs
         .readFileSync(new URL("./fixtures/output/enums_13.ts", import.meta.url), "utf-8")
         .trim();
-      const { stdout } = await execa(cmd, ["test/fixtures/input/fixture_8.yaml", "--normalize-names"], {
-        cwd,
-      });
+      const { stdout } = await execa(
+        cmd,
+        ["test/fixtures/input/fixture_8.yaml", "--normalize-names"],
+        {
+          cwd,
+        }
+      );
       expect(stdout.trim()).toEqual(expected);
     });
 
@@ -141,13 +149,9 @@ describe("CLI", () => {
       const expected = fs
         .readFileSync(new URL("./fixtures/output/enums_14.ts", import.meta.url), "utf-8")
         .trim();
-      const { stdout } = await execa(
-        cmd,
-        ["test/fixtures/input/fixture_9.yaml", "--uppercase"],
-        {
-          cwd,
-        }
-      );
+      const { stdout } = await execa(cmd, ["test/fixtures/input/fixture_9.yaml", "--uppercase"], {
+        cwd,
+      });
       expect(stdout.trim()).toEqual(expected);
     });
 
