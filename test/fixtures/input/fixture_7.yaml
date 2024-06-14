@@ -25,10 +25,3 @@ components:
         - another.weird.string
         - just(another)weird string
       type: string
-    Email.Status:
-      type: string
-      enum:
-      - Received
-      - Parsed
-      - Error
-      - Not.Sent

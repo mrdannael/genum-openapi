@@ -22,26 +22,30 @@ program
   .usage("[global options]")
   .description("Simple CLI for generating Typescript enums from OpenAPI document.")
   .argument("<file>", "OpenAPI source file")
-  .option("-x, --exclude <enumNames...>", "names of enums to exclude from OpenAPI document")
-  .option("-p, --prefix <prefix>", "place specified prefix at the beginning of the enum name")
+  .option("-o, --output <file>", "path of the output file", "stdout")
+  .option("-x, --exclude <enumNames...>", "names of enums to exclude from the OpenAPI document")
+  .option("-p, --prefix <prefix>", "add a prefix to the beginning of the enum name")
   .option(
     "--prenum <prenum>",
-    "place specified prefix instead of underscore before the enum name that starts with a number"
+    "add a specified prefix before the enum exported name that starts with a number (underscore by default if not provided)"
   )
   .option(
     "-s, --suffix [suffix]",
-    "place specified suffix at the end of the enum name if does not exist (default suffix if empty option provided: Enum)"
+    "add a suffix to the end of the enum name if it does not already exist (default suffix if empty option provided: Enum)"
   )
   .option(
     "-n, --normalize",
-    "normalize enums keys that are not valid (ie. change . to __ and - or / to _)"
+    "normalize exported enums names and enums keys that are not valid (ie. change . to __ and - or / to _)"
   )
-  .option("-u, --uppercase", "parse all enums keys to be uppercase")
-  .option("-o, --output <file>", "path of the output file", "stdout")
+  .option("--normalize-names", "normalize only exported enums names that are not valid")
+  .option("--normalize-keys", "normalize only enums keys that are not valid")
+  .option("-u, --uppercase", "convert exported enum names and keys to uppercase")
+  .option("--uppercase-names", "convert only exported enum names to uppercase ")
+  .option("--uppercase-keys", "convert only enum keys to uppercase ")
   .option(
     "-r, --custom-replacers <replacers>",
     // eslint-disable-next-line quotes
-    'custom replacers in JSON format, e.g. \'[{"regExp":"[-/]","replaceWith":"_"}]\''
+    'custom replacers applied during the normalization process, in JSON format, e.g. \'[{"regExp":"[-/]","replaceWith":"_"}]\''
   )
   .action((path) => {
     filepath = path;
@@ -65,18 +69,18 @@ const customReplacers: Replacer[] = options.customReplacers
 
 const replacers: Replacer[] = [...defaultReplacers, ...customReplacers];
 
-const parseValue = (value: string) => {
+const parseValue = (value: string, uppercase = false, normalize = false) => {
   let inputValue = value;
 
   if (/^\d/.test(inputValue)) {
     inputValue = `${options.prenum || "_"}${inputValue}`;
   }
 
-  if (options.uppercase) {
+  if (uppercase) {
     inputValue = inputValue.toUpperCase();
   }
 
-  if (options.normalize) {
+  if (normalize) {
     replacers.forEach(({ regExp, replaceWith }) => {
       inputValue = inputValue.replace(new RegExp(regExp, "g"), replaceWith);
     });
@@ -104,19 +108,26 @@ const parseJSON = (schema: string) => {
 };
 
 const arrayToEnum = (enums: string[], enumName: string) => {
+  const uppercaseKeys = options.uppercase || options.uppercaseKeys;
+  const normalizeKeys = options.normalize || options.normalizeKeys;
+  const uppercaseNames = options.uppercase || options.uppercaseNames;
+  const normalizeNames = options.normalize || options.normalizeNames;
+
   const enumString = enums
     .map((value) => {
-      return `${parseValue(value)} = "${value}"`;
+      return `${parseValue(value, uppercaseKeys, normalizeKeys)} = "${value}"`;
     })
     .join(",\n  ");
 
-  let name = options.prefix ? `${options.prefix}${enumName}` : enumName;
+  const parsedName = parseValue(enumName, false, normalizeNames);
+
+  let name = options.prefix ? `${options.prefix}${parsedName}` : parsedName;
   if (options.suffix) {
     const enumSuffix = typeof options.suffix === "string" ? options.suffix : "Enum";
     name = name.includes(enumSuffix) ? name : `${name}${enumSuffix}`; // TODO: better checking of suffix existence at the end of name
   }
 
-  const enumType = `export enum ${name} {\n  ${enumString}\n}\n\n`;
+  const enumType = `export enum ${parseValue(name, uppercaseNames)} {\n  ${enumString}\n}\n\n`;
 
   return enumType;
 };

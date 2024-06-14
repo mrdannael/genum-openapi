@@ -18,10 +18,3 @@ export enum AgencyStatus {
   another__weird__string = "another.weird.string",
   just_another_weird_string = "just(another)weird string"
 }
-
-export enum Email__Status {
-  Received = "Received",
-  Parsed = "Parsed",
-  Error = "Error",
-  Not__Sent = "Not.Sent"
-}

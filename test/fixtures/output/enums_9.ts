@@ -1,16 +1,22 @@
-export enum IAgencyInvoicingTypeEnum {
+export enum IAGENCYINVOICINGTYPEENUM {
   INVOICE_PER_AGENCY = "INVOICE_PER_AGENCY",
   INVOICE_PER_ACCOUNT = "INVOICE_PER_ACCOUNT"
 }
 
-export enum IAgencyServiceTypeEnum {
+export enum IAGENCYSERVICETYPEENUM {
   SELF_SERVICE = "SELF_SERVICE",
   MANAGED_SERVICE = "MANAGED_SERVICE"
 }
 
-export enum IAgencyStatusEnum {
+export enum IAGENCYSTATUSENUM {
   SOME_WEIRD_STRINGS = "SOME/WEIRD-Strings",
   ANOTHER__WEIRD__STRING = "another.weird.string",
   JUST_ANOTHER_WEIRD_STRING = "just(another)weird string"
 }
 
+export enum IEMAIL__STATUSENUM {
+  RECEIVED = "Received",
+  PARSED = "Parsed",
+  ERROR = "Error",
+  NOT__SENT = "Not.Sent"
+}

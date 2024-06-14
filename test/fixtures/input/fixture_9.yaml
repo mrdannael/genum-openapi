@@ -1,0 +1,11 @@
+openapi: 3.0.3
+info:
+  title: Example OpenApi description
+  version: 0.0.0
+components:
+  schemas:
+    AgencyInvoicingType:
+      enum:
+        - Invoice_per_agency
+        - Invoice_per_account
+      type: string

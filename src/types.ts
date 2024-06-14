@@ -4,7 +4,11 @@ export interface Options {
   prefix?: string;
   suffix?: string | boolean;
   normalize?: boolean;
+  normalizeNames?: boolean;
+  normalizeKeys?: boolean;
   uppercase?: boolean;
+  uppercaseNames?: boolean;
+  uppercaseKeys?: boolean;
   prenum?: string;
   output: string;
   customReplacers?: string;
