@@ -1,7 +1,7 @@
 import { execa } from "execa";
 import fs from "node:fs";
 import { URL } from "node:url";
-import { describe, test, expect } from "vitest";
+import { vi, describe, test, expect } from "vitest";
 
 const cwd = new URL("../", import.meta.url);
 const cmd = "./bin/cli.js";
@@ -44,6 +44,7 @@ describe("CLI", () => {
           "--exclude",
           "AgencyServiceTypeEnum",
           "AgencyStatus",
+          "Email.Status"
         ],
         {
           cwd,
@@ -86,11 +87,31 @@ describe("CLI", () => {
       expect(stdout.trim()).toEqual(expected);
     });
 
-    test("--normalize", async () => {
+    test("--normalize (all)", async () => {
       const expected = fs
         .readFileSync(new URL("./fixtures/output/enums_5.ts", import.meta.url), "utf-8")
         .trim();
       const { stdout } = await execa(cmd, ["test/fixtures/input/fixture_2.yaml", "--normalize"], {
+        cwd,
+      });
+      expect(stdout.trim()).toEqual(expected);
+    });
+
+    test("--normalize-keys", async () => {
+      const expected = fs
+        .readFileSync(new URL("./fixtures/output/enums_12.ts", import.meta.url), "utf-8")
+        .trim();
+      const { stdout } = await execa(cmd, ["test/fixtures/input/fixture_7.yaml", "--normalize-keys"], {
+        cwd,
+      });
+      expect(stdout.trim()).toEqual(expected);
+    });
+
+    test("--normalize-names", async () => {
+      const expected = fs
+        .readFileSync(new URL("./fixtures/output/enums_13.ts", import.meta.url), "utf-8")
+        .trim();
+      const { stdout } = await execa(cmd, ["test/fixtures/input/fixture_8.yaml", "--normalize-names"], {
         cwd,
       });
       expect(stdout.trim()).toEqual(expected);
@@ -116,13 +137,41 @@ describe("CLI", () => {
       expect(stdout.trim()).toEqual(expected);
     });
 
-    test("--uppercase (with --normalize)", async () => {
+    test("--uppercase (all)", async () => {
+      const expected = fs
+        .readFileSync(new URL("./fixtures/output/enums_14.ts", import.meta.url), "utf-8")
+        .trim();
+      const { stdout } = await execa(
+        cmd,
+        ["test/fixtures/input/fixture_9.yaml", "--uppercase"],
+        {
+          cwd,
+        }
+      );
+      expect(stdout.trim()).toEqual(expected);
+    });
+
+    test("--uppercase-keys", async () => {
       const expected = fs
         .readFileSync(new URL("./fixtures/output/enums_6.ts", import.meta.url), "utf-8")
         .trim();
       const { stdout } = await execa(
         cmd,
-        ["test/fixtures/input/fixture_2.yaml", "--normalize", "--uppercase"],
+        ["test/fixtures/input/fixture_9.yaml", "--uppercase-keys"],
+        {
+          cwd,
+        }
+      );
+      expect(stdout.trim()).toEqual(expected);
+    });
+
+    test("--uppercase-names", async () => {
+      const expected = fs
+        .readFileSync(new URL("./fixtures/output/enums_15.ts", import.meta.url), "utf-8")
+        .trim();
+      const { stdout } = await execa(
+        cmd,
+        ["test/fixtures/input/fixture_9.yaml", "--uppercase-names"],
         {
           cwd,
         }
@@ -141,6 +190,10 @@ describe("CLI", () => {
     });
 
     test.todo("with not allowed --prenum", async () => {
+      vi.mock("chalk", () => ({
+        red: (text: string) => text,
+      }));
+
       expect(async () => {
         await execa(cmd, ["test/fixtures/input/fixture_5.yaml", "--prenum", "-"], {
           cwd,

@@ -1,6 +1,6 @@
 {
   "name": "genum-openapi",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "Generate Typescript enums from openapi",
   "main": "./src/cli.ts",
   "keywords": [
@@ -54,9 +54,7 @@
     "lint:ts": "eslint '**/*.{js,jsx,ts,tsx}' --max-warnings 0 --cache",
     "prepare": "husky install"
   },
-  "bin": {
-    "genum-openapi": "./bin/cli.js"
-  },
+  "bin": "./bin/cli.js",
   "dependencies": {
     "chalk": "^5.2.0",
     "commander": "^11.0.0",
@@ -69,5 +67,6 @@
       "yarn lint:ts --fix",
       "yarn prettier"
     ]
-  }
+  },
+  "packageManager": "yarn@1.22.22"
 }
