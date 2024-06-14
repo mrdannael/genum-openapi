@@ -26,7 +26,8 @@
     "@types/node": "^20.3.1",
     "@typescript-eslint/eslint-plugin": "^5.60.0",
     "@typescript-eslint/parser": "^5.60.0",
-    "@vitest/ui": "^0.32.2",
+    "@vitest/coverage-v8": "^1.6.0",
+    "@vitest/ui": "^1.6.0",
     "eslint": "^8.43.0",
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-import": "^2.27.5",
@@ -41,14 +42,15 @@
     "rollup": "^4.18.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.4.5",
-    "vitest": "^0.33.0"
+    "vitest": "^1.6.0"
   },
   "scripts": {
     "start": "ts-node --esm ./src/cli.ts",
     "dev": "tsc --watch",
     "build": "rimraf ./bin && rollup -c rollup.config.js && chmod u+x ./bin/cli.js",
     "test": "yarn build && vitest run",
-    "test:ui": "yarn build && vitest --ui",
+    "test:ui": "yarn build && vitest --ui --coverage.enabled=true",
+    "test:coverage": "yarn build && vitest run --coverage",
     "prettier": "prettier --write .",
     "typecheck": "tsc --noemit",
     "lint:ts": "eslint '**/*.{js,jsx,ts,tsx}' --max-warnings 0 --cache",
