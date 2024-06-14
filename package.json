@@ -35,8 +35,8 @@
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-vitest": "^0.2.6",
     "execa": "^7.1.1",
-    "husky": "^8.0.3",
-    "lint-staged": "^13.2.2",
+    "husky": "^9.0.11",
+    "lint-staged": "^15.2.7",
     "prettier": "^3.3.2",
     "rimraf": "^5.0.7",
     "rollup": "^4.18.0",
@@ -55,7 +55,7 @@
     "prettier:check": "prettier --check .",
     "typecheck": "tsc --noemit",
     "lint:ts": "eslint '**/*.{js,jsx,ts,tsx}' --max-warnings 0 --cache",
-    "prepare": "husky install"
+    "prepare": "husky"
   },
   "bin": "./bin/cli.js",
   "dependencies": {
