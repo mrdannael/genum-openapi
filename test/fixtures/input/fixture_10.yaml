@@ -23,3 +23,11 @@ components:
           - ABORTED
           - FAILED
           - IN_PROGRESS
+        testOptions:
+          type: object
+          properties:
+            notification:
+              type: string
+              enum:
+              - NOTIFY
+              - NOT_NOTIFY

@@ -175,17 +175,43 @@ const getDocumentSchemas = (parsedFile: OpenAPIV3.Document) => {
 const collectEnums = (schemas: OpenAPIV3.ComponentsObject["schemas"]) => {
   const enumsMap = new Map<string, string>();
 
-  for (const key in schemas) {
-    if (
-      typeof schemas[key] === "object" &&
-      !("$ref" in schemas[key]) &&
-      "enum" in schemas[key] &&
-      !options.exclude?.includes(key)
-    ) {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      enumsMap.set(key, arrayToEnum((schemas[key] as any).enum, key)); // TODO: FIXME TS
+  const collectRecursive = (
+    schemaObject: Record<string, OpenAPIV3.SchemaObject>,
+    parentKey: string = ""
+  ) => {
+    for (const key in schemaObject) {
+      if (schemaObject[key].type === "object" && "properties" in schemaObject[key]) {
+        collectRecursive(
+          schemaObject[key].properties,
+          options.withParent ? (parentKey ? `${parentKey}__${key}` : key) : ""
+        );
+      } else if (
+        "enum" in schemaObject[key] &&
+        schemaObject[key].enum !== undefined &&
+        !options.exclude?.includes(key) &&
+        !("$ref" in schemaObject[key])
+      ) {
+        const enumName = options.withParent && parentKey ? `${parentKey}__${key}` : key;
+        enumsMap.set(enumName, arrayToEnum(schemaObject[key].enum, enumName));
+      }
     }
-  }
+  };
+
+  // TODO: fix TS issues before release
+
+  // for (const key in schemas) {
+  //   if (
+  //     typeof schemas[key] === "object" &&
+  //     !("$ref" in schemas[key]) &&
+  //     "enum" in schemas[key] &&
+  //     !options.exclude?.includes(key)
+  //   ) {
+  //     // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  //     enumsMap.set(key, arrayToEnum((schemas[key] as any).enum, key)); // TODO: FIXME TS
+  //   }
+  // }
+
+  collectRecursive(schemas, "");
 
   return enumsMap;
 };
