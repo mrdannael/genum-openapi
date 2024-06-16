@@ -1,0 +1,25 @@
+openapi: 3.0.1
+info:
+  title: Example OpenApi description
+  version: 0.0.0
+components:
+  schemas:
+    TestlogResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        testType:
+          type: string
+          enum:
+          - WEB
+          - MOBILE_ANDROID
+          - MOBILE_IOS
+        testResult:
+          type: string
+          enum:
+          - SUCCESSFUL
+          - ABORTED
+          - FAILED
+          - IN_PROGRESS

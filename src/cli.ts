@@ -43,6 +43,10 @@ program
   .option("--uppercase-names", "convert only exported enum names to uppercase ")
   .option("--uppercase-keys", "convert only enum keys to uppercase ")
   .option(
+    "--with-parent",
+    "when collecting enums preserve the parent object key within exported nested enum name"
+  )
+  .option(
     "-r, --custom-replacers <replacers>",
     // eslint-disable-next-line quotes
     'custom replacers applied during the normalization process, in JSON format, e.g. \'[{"regExp":"[-/]","replaceWith":"_"}]\''
