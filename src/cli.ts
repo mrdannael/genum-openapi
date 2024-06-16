@@ -182,6 +182,7 @@ const collectEnums = (schemas: OpenAPIV3.ComponentsObject["schemas"]) => {
     for (const key in schemaObject) {
       if (schemaObject[key].type === "object" && "properties" in schemaObject[key]) {
         collectRecursive(
+          // @ts-expect-error properties can be undefined
           schemaObject[key].properties,
           options.withParent ? (parentKey ? `${parentKey}__${key}` : key) : ""
         );
@@ -192,6 +193,7 @@ const collectEnums = (schemas: OpenAPIV3.ComponentsObject["schemas"]) => {
         !("$ref" in schemaObject[key])
       ) {
         const enumName = options.withParent && parentKey ? `${parentKey}__${key}` : key;
+        // @ts-expect-error schemaObject[key].enum can be undefined
         enumsMap.set(enumName, arrayToEnum(schemaObject[key].enum, enumName));
       }
     }
@@ -211,6 +213,7 @@ const collectEnums = (schemas: OpenAPIV3.ComponentsObject["schemas"]) => {
   //   }
   // }
 
+  // @ts-expect-error schemas don't fit the input object
   collectRecursive(schemas, "");
 
   return enumsMap;
