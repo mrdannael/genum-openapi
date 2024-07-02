@@ -12,6 +12,7 @@ export interface Options {
   prenum?: string;
   output: string;
   customReplacers?: string;
+  withParent?: boolean;
 }
 
 export interface Replacer {
