@@ -1,0 +1,101 @@
+openapi: 3.0.3
+info:
+  title: Example OpenApi description
+  version: 0.0.0
+components:
+  schemas:
+    AgencyInvoicingType:
+      enum:
+        - INVOICE_PER_AGENCY
+        - INVOICE_PER_ACCOUNT
+      type: string
+    BaseObject:
+      type: object
+      properties:
+        baseProperty:
+          type: string
+          enum:
+            - BASE_VALUE1
+            - BASE_VALUE2
+    NestedObject:
+      type: object
+      properties:
+        nestedProperty:
+          type: string
+          enum:
+            - NESTED_VALUE1
+            - NESTED_VALUE2
+    ComplexObject:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        status:
+          type: string
+          enum:
+            - ACTIVE
+            - INACTIVE
+        details:
+          anyOf:
+            - type: string
+              enum:
+                - DETAIL_STRING1
+                - DETAIL_STRING2
+            - $ref: '#/components/schemas/NestedObject'
+        choices:
+          oneOf:
+            - type: string
+              enum:
+                - CHOICE1
+                - CHOICE2
+            - type: integer
+        attributes:
+          allOf:
+            - type: object
+              properties:
+                attribute1:
+                  type: string
+                  enum:
+                    - ATTR1_VALUE1
+                    - ATTR1_VALUE2
+            - $ref: '#/components/schemas/BaseObject'
+        notExample:
+          not:
+            type: string
+            enum:
+              - NOT_ALLOWED1
+              - NOT_ALLOWED2
+    TestObject:
+      type: object
+      properties:
+        testProperty:
+          type: string
+          enum:
+            - TEST_VALUE1
+            - TEST_VALUE2
+        complex:
+          $ref: '#/components/schemas/ComplexObject'
+    PaymentMethod:
+      required:
+        - type
+      description: >-
+        A Payment Method is a pure-virtual super-class that defines a specific
+        method of payment such as Direct Debit, Cash, Digital Wallet,Tokenized
+        Card, Bank Account Transfer, Bank Account Debit, Bank Card, Voucher,
+        Check, Bucket PaymentMethod, Account PaymentMethod, and Loyalty
+        PaymentMethod with all details associated. Use the @type attribute to
+        specify the concrete type in the API calls.
+      allOf:
+        - $ref: '#/components/schemas/BaseObject'
+        - type: object
+          properties:
+            type:
+              type: string
+              description: 'Type of payment method (e.g.: bank card, cash, voucher, etc).'
+              enum:
+                - none
+                - cash
+                - online
+                - bank-transfer
+                - token-online

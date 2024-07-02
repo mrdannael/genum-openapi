@@ -4,7 +4,7 @@ import yaml from "yaml";
 import * as fs from "node:fs";
 import { Options, Replacer } from "./types";
 import { OpenAPIV3 } from "openapi-types";
-import { error } from "./utils";
+import { error, getCombinedSchemas, isReferenceObject } from "./utils";
 import path from "node:path";
 
 const packageJSON = JSON.parse(
@@ -176,45 +176,65 @@ const collectEnums = (schemas: OpenAPIV3.ComponentsObject["schemas"]) => {
   const enumsMap = new Map<string, string>();
 
   const collectRecursive = (
-    schemaObject: Record<string, OpenAPIV3.SchemaObject>,
+    schemaObject: Record<string, OpenAPIV3.SchemaObject | OpenAPIV3.ReferenceObject>,
     parentKey: string = ""
   ) => {
     for (const key in schemaObject) {
-      if (schemaObject[key].type === "object" && "properties" in schemaObject[key]) {
+      // Skip the reference object
+      if (isReferenceObject(schemaObject[key])) {
+        continue;
+      }
+
+      const schema = schemaObject[key] as OpenAPIV3.SchemaObject;
+
+      // Gather enums recursively from properties object
+      if (schema.type === "object" && schema.properties) {
         collectRecursive(
-          // @ts-expect-error properties can be undefined
-          schemaObject[key].properties,
+          schema.properties,
           options.withParent ? (parentKey ? `${parentKey}__${key}` : key) : ""
         );
-      } else if (
-        "enum" in schemaObject[key] &&
-        schemaObject[key].enum !== undefined &&
-        !options.exclude?.includes(key) &&
-        !("$ref" in schemaObject[key])
-      ) {
+      }
+
+      // Gather enums
+      if (schema.enum && Array.isArray(schema.enum) && !options.exclude?.includes(key)) {
         const enumName = options.withParent && parentKey ? `${parentKey}__${key}` : key;
-        // @ts-expect-error schemaObject[key].enum can be undefined
-        enumsMap.set(enumName, arrayToEnum(schemaObject[key].enum, enumName));
+        enumsMap.set(enumName, arrayToEnum(schema.enum, enumName));
+      }
+
+      // Gather enums from array type and items property
+      if (schema.type === "array") {
+        collectRecursive(
+          { items: schema.items },
+          options.withParent ? (parentKey ? `${parentKey}__${key}` : key) : ""
+        );
+      }
+
+      // Gather enums from additionalProperties key
+      if (schema.additionalProperties && typeof schema.additionalProperties !== "boolean") {
+        collectRecursive(
+          { additionalProperties: schema.additionalProperties },
+          options.withParent ? (parentKey ? `${parentKey}__${key}` : key) : ""
+        );
+      }
+
+      // Gather enums from oneOf, allOf, anyOf and not properties
+      const combinedProperties = ["oneOf", "allOf", "anyOf", "not"] as const;
+      for (const combinedKey of combinedProperties) {
+        if (combinedKey in schema && schema[combinedKey]) {
+          const combinedSchemas = getCombinedSchemas(schema[combinedKey] ?? []);
+          combinedSchemas.forEach((combinedSchema) => {
+            if (!isReferenceObject(combinedSchema)) {
+              collectRecursive({ [key]: combinedSchema }, parentKey);
+            }
+          });
+        }
       }
     }
   };
 
-  // TODO: fix TS issues before release
-
-  // for (const key in schemas) {
-  //   if (
-  //     typeof schemas[key] === "object" &&
-  //     !("$ref" in schemas[key]) &&
-  //     "enum" in schemas[key] &&
-  //     !options.exclude?.includes(key)
-  //   ) {
-  //     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  //     enumsMap.set(key, arrayToEnum((schemas[key] as any).enum, key)); // TODO: FIXME TS
-  //   }
-  // }
-
-  // @ts-expect-error schemas don't fit the input object
-  collectRecursive(schemas, "");
+  if (schemas) {
+    collectRecursive(schemas);
+  }
 
   return enumsMap;
 };

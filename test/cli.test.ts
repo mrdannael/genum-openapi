@@ -217,6 +217,20 @@ describe("CLI", () => {
       expect(stdout.trim()).toEqual(expected);
     });
 
+    test("should collect nested enums within anyOf, oneOf, allOf and not and preserve parent name with --with-parent flag", async () => {
+      const expected = fs
+        .readFileSync(new URL("./fixtures/output/enums_18.ts", import.meta.url), "utf-8")
+        .trim();
+      const { stdout } = await execa(
+        cmd,
+        ["test/fixtures/input/fixture_11.yaml", "--with-parent", "-n"],
+        {
+          cwd,
+        }
+      );
+      expect(stdout.trim()).toEqual(expected);
+    });
+
     test.todo("with not allowed --prenum", async () => {
       vi.mock("chalk", () => ({
         red: (text: string) => text,
