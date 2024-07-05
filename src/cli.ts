@@ -188,7 +188,7 @@ const collectEnums = (schemas: OpenAPIV3.ComponentsObject["schemas"]) => {
       const schema = schemaObject[key] as OpenAPIV3.SchemaObject;
 
       // Gather enums recursively from properties object
-      if (schema.type === "object" && schema.properties) {
+      if (schema.properties) {
         collectRecursive(
           schema.properties,
           options.withParent ? (parentKey ? `${parentKey}__${key}` : key) : ""
