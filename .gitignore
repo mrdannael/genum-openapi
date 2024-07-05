@@ -7,3 +7,4 @@ swagger.yaml
 /coverage
 schema.json
 enums.ts
+/test/fixtures/input/fixture_temp.yaml
